@@ -1,0 +1,37 @@
+﻿SMILES,FunctionalGroup,MainRingStructure,HasBenzeneRing,HasHydroxylGroup,colour_col
+CC1=C(C(=O)NC2=CC=CC=C21)N,Amino,Aromatic,FALSE,FALSE,Aromatic + No Benzene
+CC1=C(C(=O)NC2=CC=CC=C21)Br,Bromine,Aromatic,FALSE,FALSE,Aromatic + No Benzene
+CC1=C(C(=O)NC2=CC=CC=C21)C3=CC=CC=C3F,Fluoride,Aromatic,TRUE,FALSE,Aromatic + Benzene
+CC1=C(C(=O)NC2=CC=CC=C21)C3=CC=CC=C3Cl,Chlorine,Aromatic,TRUE,FALSE,Aromatic + Benzene
+CC1=C(C(=O)NC2=CC=CC=C21)Cl,Chlorine,Aromatic,FALSE,FALSE,Aromatic + No Benzene
+CC1=C(C(=O)NC2=CC=CC=C21)C3=CC=CC=C3Br,Bromine,Aromatic,TRUE,FALSE,Aromatic + Benzene
+CC1=C(C(=O)NC2=CC=CC=C21)C3=CC=CC=C3O,Hydroxyl,Aromatic,TRUE,FALSE,Aromatic + Benzene
+CC1=C(C(=O)NC2=CC=CC=C21)C3=CC=CC=C3N,Amino,Aromatic,TRUE,FALSE,Aromatic + Benzene
+CC1=C(C(=O)NC2=CC=CC=C21)C3=CC=CC=C3C,Methyl,Aromatic,TRUE,FALSE,Aromatic + Benzene
+CC1=C(C(=O)NC2=CC=CC=C21)F,Fluoride,Aromatic,FALSE,FALSE,Aromatic + No Benzene
+CC1=C(C(=O)NC2=CC=CC=C21)O,Hydroxyl,Aromatic,FALSE,FALSE,Aromatic + No Benzene
+CC1=C(C(=O)NC2=CC=CC=C21)C,Methyl,Aromatic,FALSE,FALSE,Aromatic + No Benzene
+CC1C(C(=O)NCC2CCCCC21)N,Amino,Cyclohexane,FALSE,FALSE,No Aromatic + No Benzene
+CC1C(C(=O)NCC2CCCCC21)Br,Bromine,Cyclohexane,FALSE,FALSE,No Aromatic + No Benzene
+CC1C(C(=O)NCC2CCCCC21)C3CCCCC3F,Fluoride,Cyclohexane,TRUE,FALSE,No Aromatic + Benzene
+CC1C(C(=O)NCC2CCCCC21)C3CCCCC3Cl,Chlorine,Cyclohexane,TRUE,FALSE,No Aromatic + Benzene
+CC1C(C(=O)NCC2CCCCC21)Cl,Chlorine,Cyclohexane,FALSE,FALSE,No Aromatic + No Benzene
+CC1C(C(=O)NCC2CCCCC21)C3CCCCC3Br,Bromine,Cyclohexane,TRUE,FALSE,No Aromatic + Benzene
+CC1C(C(=O)NCC2CCCCC21)C3CCCCC3O,Hydroxyl,Cyclohexane,TRUE,FALSE,No Aromatic + Benzene
+CC1C(C(=O)NCC2CCCCC21)C3CCCCC3N,Amino,Cyclohexane,TRUE,FALSE,No Aromatic + Benzene
+CC1C(C(=O)NCC2CCCCC21)C3CCCCC3C,Methyl,Cyclohexane,TRUE,FALSE,No Aromatic + Benzene
+CC1C(C(=O)NCC2CCCCC21)F,Fluoride,Cyclohexane,FALSE,FALSE,No Aromatic + No Benzene
+CC1C(C(=O)NCC2CCCCC21)O,Hydroxyl,Cyclohexane,FALSE,FALSE,No Aromatic + No Benzene
+CC1C(C(=O)NCC2CCCCC21)C,Methyl,Cyclohexane,FALSE,FALSE,No Aromatic + No Benzene
+CC1=C(C(=O)N(O)C2=CC=CC=C21)N,Amino,Aromatic,FALSE,TRUE,Aromatic + Hydroxyl
+CC1=C(C(=O)N(O)C2=CC=CC=C21)Br,Bromine,Aromatic,FALSE,TRUE,Aromatic + Hydroxyl
+CC1=C(C(=O)N(O)C2=CC=CC=C21)Cl,Chlorine,Aromatic,FALSE,TRUE,Aromatic + Hydroxyl
+CC1=C(C(=O)N(O)C2=CC=CC=C21)F,Fluoride,Aromatic,FALSE,TRUE,Aromatic + Hydroxyl
+CC1=C(C(=O)N(O)C2=CC=CC=C21)O,Hydroxyl,Aromatic,FALSE,TRUE,Aromatic + Hydroxyl
+CC1=C(C(=O)N(O)C2=CC=CC=C21)C,Methyl,Aromatic,FALSE,TRUE,Aromatic + Hydroxyl
+CC1C(C(=O)NCCC2CCCCC21)O)N,Amino,Cyclohexane,FALSE,TRUE,No Aromatic + Hydroxyl
+CC1C(C(=O)NCCC2CCCCC21)O)Br,Bromine,Cyclohexane,FALSE,TRUE,No Aromatic + Hydroxyl
+CC1C(C(=O)NCCC2CCCCC21)O)Cl,Chlorine,Cyclohexane,FALSE,TRUE,No Aromatic + Hydroxyl
+CC1C(C(=O)NCCC2CCCCC21)O)F,Fluoride,Cyclohexane,FALSE,TRUE,No Aromatic + Hydroxyl
+CC1C(C(=O)NCCC2CCCCC21)O)O,Hydroxyl,Cyclohexane,FALSE,TRUE,No Aromatic + Hydroxyl
+CC1C(C(=O)NCCC2CCCCC21)O)C,Methyl,Cyclohexane,FALSE,TRUE,No Aromatic + Hydroxyl
