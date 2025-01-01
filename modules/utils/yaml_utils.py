@@ -25,7 +25,8 @@ from modules.acquisition_functions.acquisition_functions import (
         GraphUpperConfidenceBound,
         EntropySearch,
         EntropySearchPortfolio,
-        RandomSampler)
+        RandomSampler,
+        GraphUpperConfidenceBoundWithTuning)
 from modules.acquisition_function_optimisers.genetic_algorithm import GeneticAlgorithm
 from modules.acquisition_function_optimisers.transformer import Transformer
 from modules.acquisition_function_optimisers.dataset_sampler import DatasetSampler
@@ -197,7 +198,8 @@ def load_acquisition_function(config: dict) -> object:
         config['acquisition_function']['upper_confidence_bound'] +
         config['acquisition_function']['entropy_search'] +
         config['acquisition_function']['entropy_search_portfolio'] + 
-        config['acquisition_function']['random']) != 1:
+        config['acquisition_function']['random'] +
+        config['acquisition_function']['upper_confidence_bound_with_tuning']) != 1:
         raise ValueError(
             "Exactly one acquisition function must be selected as True.")
     
@@ -213,6 +215,8 @@ def load_acquisition_function(config: dict) -> object:
         acquisition_function = EntropySearchPortfolio
     elif config['acquisition_function']['random']:
         acquisition_function = RandomSampler
+    elif config['acquisition_function']['upper_confidence_bound_with_tuning']:
+        acquisition_function = GraphUpperConfidenceBoundWithTuning
     else:
         raise ValueError('No acquisition function specified')
     return acquisition_function

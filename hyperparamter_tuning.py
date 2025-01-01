@@ -78,6 +78,11 @@ def objective(trial: optuna.trial.Trial) -> float:
     objective_function = load_objective_function(config)
     graph_kernel = load_graph_kernel(config)
 
+
+    # Setup acf using acquisition function
+    if config['acquisition_function']['upper_confidence_bound_with_tuning']:
+        acf = acquisition_function(epsilon = trial.suggest_float('ucb_epsilon', 1e-8, 1, log=True), asymptote = trial.suggest_float('ucb_asymptote', 0, 1), inital_value = trial.suggest_float('ucb_inital_value', 0, 2))
+
     # Load benchmarking metrics
     benchmarking_metrics = load_benchmarking_metrics(config, '')
 
@@ -86,7 +91,7 @@ def objective(trial: optuna.trial.Trial) -> float:
                                         intial_graphs, 
                                         max_oracle_calls,
                                         surrogate_model=surrogate_model, 
-                                        acquisition_function=acquisition_function,
+                                        acf=acf,
                                         acquisition_function_optimiser=acquisition_function_optimiser, 
                                         objective_function=objective_function,
                                         kernel=graph_kernel, 

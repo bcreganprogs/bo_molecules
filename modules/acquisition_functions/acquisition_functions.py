@@ -84,8 +84,8 @@ class AcquisitionFunction:
 class GraphExpectedImprovement(AcquisitionFunction):
     """ Class for the Expected Improvement acquisition function. """
     
-    def __init__(self, model: gpytorch.models.ExactGP, 
-                 best_f: float, iteration_count: int = 1) -> None:
+    def __init__(self, model: gpytorch.models.ExactGP = None, 
+                 best_f: float = None, iteration_count: int = 1) -> None:
         """ Initialises the Expected Improvement acquisition function.
         
         Args:
@@ -150,8 +150,8 @@ class GraphExpectedImprovement(AcquisitionFunction):
 class GraphProbabilityOfImprovement(AcquisitionFunction):
     """ Class for the Probability of Improvement acquisition function. """
     
-    def __init__(self, model: gpytorch.models.ExactGP,
-                 best_f: float, 
+    def __init__(self, model: gpytorch.models.ExactGP = None,
+                 best_f: float = None, 
                  iteration_count: int = 1) -> None:
         """ Initialises the Probability of Improvement acquisition function.
         
@@ -214,8 +214,8 @@ class GraphProbabilityOfImprovement(AcquisitionFunction):
 class GraphUpperConfidenceBound(AcquisitionFunction):
     """ Class for the Upper Confidence Bound acquisition function. """
     
-    def __init__(self, model: gpytorch.models.ExactGP, 
-                 best_f: float, iteration_count: int = 1) -> None:
+    def __init__(self, model: gpytorch.models.ExactGP = None, 
+                 best_f: float = None, iteration_count: int = 1) -> None:
         """ Initialises the Upper Confidence Bound acquisition function. 
         
         Args:
@@ -284,9 +284,9 @@ class GraphUpperConfidenceBound(AcquisitionFunction):
 class EntropySearch(AcquisitionFunction):
     """ Class for the Entropy Search acquisition function. """
     
-    def __init__(self, model: gpytorch.models.ExactGP,
-                 best_f: float,
-                 iteration_count: int) -> None:
+    def __init__(self, model: gpytorch.models.ExactGP = None,
+                 best_f: float = None,
+                 iteration_count: int = 1) -> None:
         """ Initialises the Entropy Search acquisition function.
         
         Args:
@@ -366,9 +366,9 @@ class EntropySearch(AcquisitionFunction):
 class EntropySearchPortfolio(AcquisitionFunction):
     """ Class for the Entropy Search acquisition function. """
     
-    def __init__(self, model: gpytorch.models.ExactGP,
-                best_f: float,
-                iteration_count: int) -> None:
+    def __init__(self, model: gpytorch.models.ExactGP = None,
+                best_f: float = None,
+                iteration_count: int = 1) -> None:
         """ Initialises the Entropy Search acquisition function.
         
         Args:
@@ -498,8 +498,8 @@ class EntropySearchPortfolio(AcquisitionFunction):
 class RandomSampler(AcquisitionFunction):
     """ Class for the Random Sampler acquisition function. """
     
-    def __init__(self, model: gpytorch.models.ExactGP, 
-                 best_f: float,
+    def __init__(self, model: gpytorch.models.ExactGP = None, 
+                 best_f: float = None,
                  iteration_count: int = 1) -> None:
         """ Initialises the Random Sampler acquisition function.
         
@@ -538,3 +538,82 @@ class RandomSampler(AcquisitionFunction):
         output = self.calculate_random_values(len(graphs))
 
         return output
+    
+
+
+
+class GraphUpperConfidenceBoundWithTuning(AcquisitionFunction):
+    """ Class for the Upper Confidence Bound acquisition function. """
+    
+    def __init__(self, model: gpytorch.models.ExactGP = None, 
+                 best_f: float = None, iteration_count: int = 1, 
+                 epsilon: float = 0.01, asymptote: float = 0.2,
+                 inital_value: float = 2.0) -> None:
+        """ Initialises the Upper Confidence Bound acquisition function. 
+        
+        Args:
+            model: model informing the acquisition function.
+            best_f: best function value observed so far.
+            iteration_count: number of iterations of the optimisation process;
+                                defaults to 1.
+        
+        Returns:
+            None
+        """
+        super().__init__(model, best_f)
+        self.iteration_count = iteration_count
+        self.epsilon = epsilon
+        self.asymptote = asymptote
+        self.inital_value = inital_value
+
+    def calculate_upper_confidence_bound(self, 
+                                         mean: torch.Tensor, 
+                                         std: torch.Tensor) -> torch.Tensor:
+        
+        """ Calculates the Upper Confidence Bound (UCB).
+        
+        For given mean and standard deviation of predictions and incorporating
+        a dynamic exploration parameter based on the iteration count, the UCB
+        is calculated.
+
+        Args:
+            mean: Mean predictions from the Gaussian process model.
+            std: Standard deviations of predictions from the Gaussian process.
+            epsilon: Exploration  decay parameter.
+            asymptote: The asymptote value of the UCB.
+            inital_value: The initial value of the UCB.
+
+        Returns:
+            ucb: Calculated UCB values.
+        """
+        
+        # Calculate the exploration parameter
+        epsilon = self.asymptote + (self.inital_value - self.asymptote) * np.exp(- self.epsilon * self.iteration_count)
+
+        self.iteration_count = self.iteration_count + 1
+        
+        # Calculate the upper confidence bound
+        ucb = mean + epsilon * std
+
+        return ucb
+    
+    def __call__(self, 
+                graphs: List[nx.Graph],
+                epsilon: float = 0.001) -> torch.Tensor:
+        """Computes the Upper Confidence Bound Improvement on a graph.
+
+        Args:
+            graph: list of graphs to evaluate.
+            epsilon: exploration  decay parameter.
+
+        Returns:
+            ucb: upper confidence bound of improvement of graph.
+        """
+     
+        # Compute the mean and standard deviation of the posterior distribution
+        mean, std = self._calculate_mean_std(graphs)
+
+
+        ucb = self.calculate_upper_confidence_bound(mean, std)
+
+        return ucb

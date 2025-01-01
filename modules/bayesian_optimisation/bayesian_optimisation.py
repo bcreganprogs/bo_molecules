@@ -65,7 +65,7 @@ def bayesian_optimisation(
     x_train: List[nx.Graph],
     n_trials: int,
     kernel: object,
-    acquisition_function: Callable,
+    acf: Callable,
     acquisition_function_optimiser: object,
     surrogate_model: object,
     objective_function: Callable,
@@ -82,7 +82,7 @@ def bayesian_optimisation(
         x_train: List of networkx graphs for training.
         n_trials: Number of random trials to execute.
         kernel: Kernel used for the GP model.
-        acquisition_function: The acquisition function employed.
+        acf: The acquisition function employed already initalized.
         acquisition_function_optimiser: Optimiser for the acquisition function.
         surrogate_model: GP model utilized.
         objective_function: Objective function applied.
@@ -151,9 +151,17 @@ def bayesian_optimisation(
 
         # Update acquisition function with new model, best value and iteration count
         # do we need to define acf each iteration?
-        acf = acquisition_function(model=model, 
-                                   best_f=y_train.max().to('cuda' if torch.cuda.is_available() else 'cpu'), 
-                                   iteration_count=iteration)
+        # defeintiley not so we can move this out of the loop and pass it as 
+        # an argument updating it with iteration count, best value and model
+
+
+        # acf = acquisition_function(model=model, 
+        #                            best_f=y_train.max().to('cuda' if torch.cuda.is_available() else 'cpu'), 
+        #                            iteration_count=iteration)
+        
+        acf.model = model
+        acf.best_f = y_train.max().to('cuda' if torch.cuda.is_available() else 'cpu')
+        acf.iteration_count = iteration
   
         # Find graph which maximises acquisition function
         new_mol_as_graph, offspring_graphs = evaluate_acquisition_function(

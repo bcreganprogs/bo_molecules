@@ -25,10 +25,11 @@ graph_kernel:
 acquisition_function:
   expected_improvement: false
   probability_of_improvement: false
-  upper_confidence_bound: true
+  upper_confidence_bound: false
   entropy_search: false          # very slow for large offspring (n_offspring > 10)
   entropy_search_portfolio: false
   random: false
+  upper_confidence_bound_with_tuning: true
 
 acquisition_optimiser:
   genetic_algorithm: true
