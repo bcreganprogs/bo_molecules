@@ -1,0 +1,59 @@
+bayesian_optimisation:
+  n_trials: 1000
+  n_initial_samples: 10
+
+initial_dataset:
+  sample_from_zinc: true
+  sample_from_transformer: false
+  sample_from_custom_dataset: false
+  custom_dataset:
+    filepath_to_custom_csv: null
+
+objective_function:
+  oracle_name: albuterol_similarity
+  objective: 'maximise'
+
+surrogate_model:
+  model: 'graph_gp'
+
+graph_kernel:
+  # Options: random_walk, shortest_path, vertex_histogram, 
+  # neighborhood_hash, weisfeiler_lehman, weisfeiler_lehman_optimal_assignment, 
+  # edge_histogram, Graphormer_DGK
+  kernel_name: 'weisfeiler_lehman'
+
+acquisition_function:
+  expected_improvement: true
+  probability_of_improvement: false
+  upper_confidence_bound: false
+  entropy_search: false          # very slow for large offspring (n_offspring > 10)
+  entropy_search_portfolio: false
+  random: false
+
+acquisition_optimiser:
+  genetic_algorithm: true
+  transformer: false
+  dataset_sampler: false
+
+ga_optimiser:
+  n_parents: 75
+  n_offspring: 50
+  mutation_rate: 0.2
+  max_atoms: 60
+  sampling: 'uniform'
+
+transformer_optimiser:
+  n_offspring: 10
+
+benchmarking:
+  graph_kernel_benchmarks: false
+  interim_benchmarking: true
+  interim_benchmarking_freq: 100
+  plot_oracle_history: true
+  top_1_benchmark: true
+  top_10_benchmark: true
+  top_100_benchmark: true
+
+storage:
+  store_oracle_values_and_smiles: true
+  compress_file: true

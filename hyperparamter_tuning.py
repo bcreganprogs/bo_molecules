@@ -97,7 +97,17 @@ def objective(trial: optuna.trial.Trial) -> float:
     return results_top_10
 
 if __name__ == '__main__':
-    trial = optuna.load_study(study_name='hp_optimization_studyv1', storage='sqlite:///hp_optimization_studyv1.db')
+
+    study_name = 'hp_optimization_studyv1'
+    storage = 'sqlite:///hp_optimization_studyv1.db'
+
+    try:
+        # Try loading the existing study
+        trial = optuna.load_study(study_name=study_name, storage=storage)
+    except KeyError:
+        # If the study doesn't exist, create it
+        trial = optuna.create_study(study_name=study_name, storage=storage, direction='minimize')  # or 'maximize'
+
 
     trial.optimize(objective, n_trials=None, timeout=(60*60*8), n_jobs=-1, catch=(Exception,))
     
